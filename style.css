@@ -58,7 +58,7 @@ body {
 #items-group {
         list-style: none;
         padding: 0;
-      }
+}
 
 #items-group li {
         margin-left: 10px;
@@ -70,27 +70,32 @@ body {
         display: flex;
         justify-content: space-between;
         align-items: center;
-      }
+}
 
 .item-details {
-        flex-grow: 1;
-      }
+    flex-grow: 1;
+}
 
 .item-details h3 {
-        margin: 0;
-      }
+    margin: 0;
+}
 
 .quantity {
-        font-weight: bold;
-        color: #3498db;
-      }
+    font-weight: bold;
+    color: #3498db;
+}
 
 .buyButtons {
-        display: flex;
-        gap: 10px;
-      }
-
+    display: flex;
+    gap: 10px;
+}
 
 .button1, .button2, .button3 {
     margin-left: 5px;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    cursor: pointer;
 }
