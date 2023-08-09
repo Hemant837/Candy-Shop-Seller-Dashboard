@@ -1,0 +1,96 @@
+body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+}
+
+.candyShop {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
+
+.candyShop h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+.candyShop label {
+        display: block;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+.candyShop input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+#addItem {
+        margin-top: 10px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        width: 100%;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
+      }
+
+#addItem:hover {
+        background-color: #268bd2;
+        transform: scale(1.05);
+      }
+
+#items-group {
+        list-style: none;
+        padding: 0;
+      }
+
+#items-group li {
+        margin-left: 10px;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+.item-details {
+        flex-grow: 1;
+      }
+
+.item-details h3 {
+        margin: 0;
+      }
+
+.quantity {
+        font-weight: bold;
+        color: #3498db;
+      }
+
+.buyButtons {
+        display: flex;
+        gap: 10px;
+      }
+
+
+.button1, .button2, .button3 {
+    margin-left: 5px;
+}
