@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Candy Shop Seller Dashboard</title>
+  </head>
+  <body>
+    <form class="candyShop">
+      <h1>Candy Shop</h1>
+      <label for="candyName">Candy Name</label>
+      <input id="candyName" type="text" value="" />
+      <label for="description">Description</label>
+      <input id="description" type="text" value="" />
+      <label for="quantity">Quantity</label>
+      <input id="quantity" type="number" value="" />
+      <label for="price">Price</label>
+      <input id="price" type="number" value="" />
+      <button id="addItem" type="submit" onclick="addItemsInList(event)">
+        Add item
+      </button>
+    </form>
+    <ul id="items-group"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
