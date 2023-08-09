@@ -55,9 +55,14 @@ function descreaseByOne(event) {
           currentData.quantity = currentData.quantity - 1;
 
           axios
-            .patch(
+            .put(
               `https://crudcrud.com/api/b8a29ad266d54119a60d366c7f81454d/shopData/${dataId}`,
-              { quantity: currentData }
+              {
+                candyName: currentData.candyName,
+                description: currentData.description,
+                quantity: currentData.quantity,
+                price: currentData.price,
+              }
             )
             .then((res) => console.log(res))
             .catch((err) => console.log(err));
