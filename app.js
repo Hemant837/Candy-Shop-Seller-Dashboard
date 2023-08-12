@@ -1,6 +1,6 @@
 let addItem = document.getElementById("addItem");
 
-function addItemsInList(event) {
+async function addItemsInList(event) {
   event.preventDefault();
   let candyName = document.getElementById("candyName").value;
   let description = document.getElementById("description").value;
@@ -14,13 +14,15 @@ function addItemsInList(event) {
     price: price,
   };
 
-  axios
-    .post(
-      "https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData",
+  try {
+    const response = await axios.post(
+      "https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData",
       newItems
-    )
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    );
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
 
   document.getElementById("candyName").value = "";
   document.getElementById("description").value = "";
@@ -28,140 +30,92 @@ function addItemsInList(event) {
   document.getElementById("price").value = "";
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  axios
-    .get("https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData")
-    .then((response) => {
-      console.log(response.data);
-      for (var i = 0; i < response.data.length; i++) {
-        showUserOnScreen(response.data[i]);
-      }
-    })
-    .catch((err) => console.log(err));
-});
+async function fetchAndDisplayData() {
+  try {
+    const response = await axios.get(
+      "https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData"
+    );
+    console.log(response.data);
+    response.data.forEach(showUserOnScreen);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-function descreaseByOne(event) {
+// Function to decrease the amount of candy left in the stock.
+async function decreaseQuantity(dataId, decrementAmount) {
+  try {
+    const response = await axios.get(
+      `https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData/${dataId}`
+    );
+    let currentData = response.data;
+
+    if (currentData.quantity >= decrementAmount) {
+      currentData.quantity -= decrementAmount;
+
+      await axios.put(
+        `https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData/${dataId}`,
+        {
+          candyName: currentData.candyName,
+          description: currentData.description,
+          quantity: currentData.quantity,
+          price: currentData.price,
+        }
+      );
+
+      console.log("Quantity updated successfully.");
+    } else {
+      console.log("Insufficient quantity.");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Function to decrease the amount by 1 of candy left in the stock.
+async function decreaseByOne(event) {
   event.preventDefault();
   if (event.target.classList.contains("button1")) {
     let li = event.target.parentElement;
     let dataId = li.getAttribute("data-id");
-    axios
-      .get(
-        `https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData/${dataId}`
-      )
-      .then((response) => {
-        let currentData = response.data;
-        if (currentData.quantity > 0) {
-          currentData.quantity = currentData.quantity - 1;
-
-          axios
-            .put(
-              `https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData/${dataId}`,
-              {
-                candyName: currentData.candyName,
-                description: currentData.description,
-                quantity: currentData.quantity,
-                price: currentData.price,
-              }
-            )
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-        }
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    await decreaseQuantity(dataId, 1);
   }
 }
-function descreaseByTwo(event) {
+
+// Function to decrease the amount by 2 of candy left in the stock.
+async function decreaseByTwo(event) {
   event.preventDefault();
   if (event.target.classList.contains("button2")) {
     let li = event.target.parentElement;
     let dataId = li.getAttribute("data-id");
-    axios
-      .get(
-        `https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData/${dataId}`
-      )
-      .then((response) => {
-        let currentData = response.data;
-        if (currentData.quantity > 0) {
-          currentData.quantity = currentData.quantity - 2;
-
-          axios
-            .put(
-              `https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData/${dataId}`,
-              {
-                candyName: currentData.candyName,
-                description: currentData.description,
-                quantity: currentData.quantity,
-                price: currentData.price,
-              }
-            )
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-        }
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    await decreaseQuantity(dataId, 2);
   }
 }
-function descreaseByThree(event) {
+
+// Function to decrease the amount by 3 of candy left in the stock.
+async function decreaseByThree(event) {
   event.preventDefault();
   if (event.target.classList.contains("button3")) {
     let li = event.target.parentElement;
     let dataId = li.getAttribute("data-id");
-    axios
-      .get(
-        `https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData/${dataId}`
-      )
-      .then((response) => {
-        let currentData = response.data;
-        if (currentData.quantity > 0) {
-          currentData.quantity = currentData.quantity - 3;
-
-          axios
-            .put(
-              `https://crudcrud.com/api/abd2ee668efd4f82902e163864677b34/shopData/${dataId}`,
-              {
-                candyName: currentData.candyName,
-                description: currentData.description,
-                quantity: currentData.quantity,
-                price: currentData.price,
-              }
-            )
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-        }
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    await decreaseQuantity(dataId, 3);
   }
 }
 
-function showUserOnScreen(newItems) {
+// This function is created to display the the candies present in the store.
+async function showUserOnScreen(newItems) {
   let items = document.getElementById("items-group");
   let item = document.createElement("li");
   let text = `Candy name: ${newItems.candyName} Description: ${newItems.description} Quantity left: ${newItems.quantity} Rs. ${newItems.price}`;
 
-  // Buy button
-  let buyButton1 = document.createElement("button");
-  let buyButton2 = document.createElement("button");
-  let buyButton3 = document.createElement("button");
+  // Buy buttons
+  let buyButton1 = createBuyButton("Buy1", "button1", decreaseByOne);
+  let buyButton2 = createBuyButton("Buy2", "button2", decreaseByTwo);
+  let buyButton3 = createBuyButton("Buy3", "button3", decreaseByThree);
 
-  buyButton1.textContent = "Buy1";
-  buyButton2.textContent = "Buy2";
-  buyButton3.textContent = "Buy3";
-
-  buyButton1.className = "button1";
-  buyButton2.className = "button2";
-  buyButton3.className = "button3";
-
+  // Setting data-id attribute to the newly created li, which is created by the crudcrud.com to fetch the exact li when needed.
   item.setAttribute("data-id", newItems._id);
-
   item.textContent = text;
-
-  buyButton1.addEventListener("click", descreaseByOne);
-  buyButton2.addEventListener("click", descreaseByTwo);
-  buyButton3.addEventListener("click", descreaseByThree);
 
   item.appendChild(buyButton1);
   item.appendChild(buyButton2);
@@ -169,3 +123,16 @@ function showUserOnScreen(newItems) {
 
   items.appendChild(item);
 }
+
+// Function for creating Buttons
+
+function createBuyButton(text, className, clickHandler) {
+  let button = document.createElement("button");
+  button.textContent = text;
+  button.className = className;
+  button.addEventListener("click", clickHandler);
+  return button;
+}
+
+// To Display Data on Screen Load/Refresh.
+window.addEventListener("DOMContentLoaded", fetchAndDisplayData);
