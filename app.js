@@ -1,6 +1,9 @@
 let addItem = document.getElementById("addItem");
+const baseURL =
+  "https://crudcrud.com/api/315c04ad549d4ce7ba3585e6a74bd03f/shopData";
 
-async function addItemsInList(event) {
+// Pushing data collecting from the browser to the store's server.
+async function pushDataToTheServer(event) {
   event.preventDefault();
   let candyName = document.getElementById("candyName").value;
   let description = document.getElementById("description").value;
@@ -15,10 +18,7 @@ async function addItemsInList(event) {
   };
 
   try {
-    const response = await axios.post(
-      "https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData",
-      newItems
-    );
+    const response = await axios.post(baseURL, newItems);
     console.log(response);
   } catch (error) {
     console.log(error);
@@ -30,11 +30,10 @@ async function addItemsInList(event) {
   document.getElementById("price").value = "";
 }
 
+// Fetching Data the stores server.
 async function fetchAndDisplayData() {
   try {
-    const response = await axios.get(
-      "https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData"
-    );
+    const response = await axios.get(baseURL);
     console.log(response.data);
     response.data.forEach(showUserOnScreen);
   } catch (error) {
@@ -45,23 +44,18 @@ async function fetchAndDisplayData() {
 // Function to decrease the amount of candy left in the stock.
 async function decreaseQuantity(dataId, decrementAmount) {
   try {
-    const response = await axios.get(
-      `https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData/${dataId}`
-    );
+    const response = await axios.get(`${baseURL}/${dataId}`);
     let currentData = response.data;
 
     if (currentData.quantity >= decrementAmount) {
       currentData.quantity -= decrementAmount;
 
-      await axios.put(
-        `https://crudcrud.com/api/f8285dbc2dbd4a9181ff3407491b9598/shopData/${dataId}`,
-        {
-          candyName: currentData.candyName,
-          description: currentData.description,
-          quantity: currentData.quantity,
-          price: currentData.price,
-        }
-      );
+      await axios.put(`${baseURL}/${dataId}`, {
+        candyName: currentData.candyName,
+        description: currentData.description,
+        quantity: currentData.quantity,
+        price: currentData.price,
+      });
 
       console.log("Quantity updated successfully.");
     } else {
@@ -75,7 +69,10 @@ async function decreaseQuantity(dataId, decrementAmount) {
 // Function to decrease the amount by 1 of candy left in the stock.
 async function decreaseByOne(event) {
   event.preventDefault();
+
+  // Selecting the child element of the newly created li.
   if (event.target.classList.contains("button1")) {
+    // Selecting the newly created li
     let li = event.target.parentElement;
     let dataId = li.getAttribute("data-id");
     await decreaseQuantity(dataId, 1);
@@ -85,7 +82,10 @@ async function decreaseByOne(event) {
 // Function to decrease the amount by 2 of candy left in the stock.
 async function decreaseByTwo(event) {
   event.preventDefault();
+
+  // Selecting the child element of the newly created li.
   if (event.target.classList.contains("button2")) {
+    // Selecting the newly created li.
     let li = event.target.parentElement;
     let dataId = li.getAttribute("data-id");
     await decreaseQuantity(dataId, 2);
@@ -95,7 +95,10 @@ async function decreaseByTwo(event) {
 // Function to decrease the amount by 3 of candy left in the stock.
 async function decreaseByThree(event) {
   event.preventDefault();
+
+  // Selecting the child element of the newly created li.
   if (event.target.classList.contains("button3")) {
+    // Selecting the newly created li.
     let li = event.target.parentElement;
     let dataId = li.getAttribute("data-id");
     await decreaseQuantity(dataId, 3);
@@ -113,7 +116,7 @@ async function showUserOnScreen(newItems) {
   let buyButton2 = createBuyButton("Buy2", "button2", decreaseByTwo);
   let buyButton3 = createBuyButton("Buy3", "button3", decreaseByThree);
 
-  // Setting data-id attribute to the newly created li, which is created by the crudcrud.com to fetch the exact li when needed.
+  // Setting data-id attribute to the newly created li, the "id" is created by the crudcrud.com, Setting that id to fetch the exact li when needed.
   item.setAttribute("data-id", newItems._id);
   item.textContent = text;
 
@@ -125,7 +128,6 @@ async function showUserOnScreen(newItems) {
 }
 
 // Function for creating Buttons
-
 function createBuyButton(text, className, clickHandler) {
   let button = document.createElement("button");
   button.textContent = text;
@@ -134,5 +136,5 @@ function createBuyButton(text, className, clickHandler) {
   return button;
 }
 
-// To Display Data on Screen Load/Refresh.
+// To Display Data on the panel when screen Loads/Refresh.
 window.addEventListener("DOMContentLoaded", fetchAndDisplayData);
